@@ -5,7 +5,7 @@ nredis-proxy 是一个以redis 协议为主的高性能稳定的代理中间件�
      
      2：提供分片策略，扩展性强，可自定义分片算法
      
-     3：提供读写分离，一主多从
+     3：提供读写分离，一主多从,从按照权重读取
      
      4：提供自动监听功能，主挂了，提供选举算法，从作为主
      
@@ -19,7 +19,6 @@ nredis-proxy 是一个以redis 协议为主的高性能稳定的代理中间件�
         http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
         http://www.nredisproxy.com/redisProxy
         http://www.nredisproxy.com/redisProxy/redisProxy.xsd" >
-        
     <!--redis 主从配置  -->
     <redisProxy:redisProxyNode id="wandaredisnode"  redisProxyHost="127.0.0.1" redisProxyPort="6379" algorithm-ref="loadMasterBalance" address="127.0.0.1:2181">
       
