@@ -9,18 +9,7 @@
         
     <!--redis 主从配置  -->
     <redisProxy:redisProxyNode id="wandaredisnode"  redisProxyHost="127.0.0.1" redisProxyPort="6379" algorithm-ref="loadMasterBalance" address="127.0.0.1:2181">
-      <!-- <redisProxy:redisProxyMaster id="wandaredismasters" host="10.213.42.125" port="10656" timeout="5000" maxActiveConnection="5000" maxIdleConnection="500" minConnection="50" algorithm-ref="loadClusterBalance">
-         <redisProxy:redisProxyCluster id="wandarediscluster0" host="10.213.42.128" port="10656" timeout="5000" maxActiveConnection="5000" maxIdleConnection="500" minConnection="50" weight="1"></redisProxy:redisProxyCluster>
-      </redisProxy:redisProxyMaster>
-      <redisProxy:redisProxyMaster id="wandaredismasters" host="10.213.42.125" port="10657" timeout="5000" maxActiveConnection="5000" maxIdleConnection="500" minConnection="50" algorithm-ref="loadClusterBalance">
-         <redisProxy:redisProxyCluster id="wandarediscluster0" host="10.213.42.128" port="10657" timeout="5000" maxActiveConnection="5000" maxIdleConnection="500" minConnection="50" weight="1"></redisProxy:redisProxyCluster>
-      </redisProxy:redisProxyMaster>
-      <redisProxy:redisProxyMaster id="wandaredismasters" host="10.213.42.125" port="10658" timeout="5000" maxActiveConnection="5000" maxIdleConnection="500" minConnection="50" algorithm-ref="loadClusterBalance">
-         <redisProxy:redisProxyCluster id="wandarediscluster0" host="10.213.42.128" port="10658" timeout="5000" maxActiveConnection="5000" maxIdleConnection="500" minConnection="50" weight="1"></redisProxy:redisProxyCluster>
-      </redisProxy:redisProxyMaster>
-      <redisProxy:redisProxyMaster id="wandaredismasters" host="10.213.42.125" port="10659" timeout="5000" maxActiveConnection="5000" maxIdleConnection="500" minConnection="50" algorithm-ref="loadClusterBalance">
-         <redisProxy:redisProxyCluster id="wandarediscluster0" host="10.213.42.128" port="10659" timeout="5000" maxActiveConnection="5000" maxIdleConnection="500" minConnection="50" weight="1"></redisProxy:redisProxyCluster>
-      </redisProxy:redisProxyMaster>  -->
+      
       <redisProxy:redisProxyMaster id="wandaredismasters" host="127.0.0.1" port="6380" timeout="5000" maxActiveConnection="5000" maxIdleConnection="500" minConnection="50" algorithm-ref="loadClusterBalance">
       	  <redisProxy:redisProxyCluster id="wandarediscluster0" host="127.0.0.1" port="6381" timeout="5000" maxActiveConnection="5000" maxIdleConnection="500" minConnection="50" weight="1"></redisProxy:redisProxyCluster>
       </redisProxy:redisProxyMaster> 
