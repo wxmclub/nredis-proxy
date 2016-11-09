@@ -11,13 +11,13 @@ import org.springframework.beans.factory.InitializingBean;
 import com.alibaba.fastjson.JSONObject;
 import com.opensource.netty.redis.proxy.commons.constants.RedisConstants;
 import com.opensource.netty.redis.proxy.core.cluster.LoadBalance;
-import com.opensource.netty.redis.proxy.core.config.FfanRedisServerMasterCluster;
-import com.opensource.netty.redis.proxy.core.config.support.FfanRedisServerBean;
-import com.opensource.netty.redis.proxy.core.config.support.FfanRedisServerClusterBean;
+import com.opensource.netty.redis.proxy.core.config.LBRedisServerMasterCluster;
+import com.opensource.netty.redis.proxy.core.config.support.LBRedisServerBean;
+import com.opensource.netty.redis.proxy.core.config.support.LBRedisServerClusterBean;
 import com.opensource.netty.redis.proxy.core.enums.RedisProxyParamType;
 import com.opensource.netty.redis.proxy.core.registry.Registry;
 import com.opensource.netty.redis.proxy.core.url.RedisProxyURL;
-import com.opensource.netty.redis.proxy.net.server.FfanRedisServer;
+import com.opensource.netty.redis.proxy.net.server.LBRedisServer;
 import com.opensource.netty.redis.proxy.zk.registry.ZookeeperRegistryFactory;
 import com.opensource.netty.redis.proxy.zk.registry.listen.ZookeeperRegistryListen;
 
@@ -65,14 +65,14 @@ public class RedisProxyNode implements InitializingBean {
 	 * 获取 master-cluster
 	 * @return
 	 */
-	private FfanRedisServerMasterCluster getFfanRedisServerMasterCluster(){
+	private LBRedisServerMasterCluster getFfanRedisServerMasterCluster(){
 		
 		
-		List<FfanRedisServerClusterBean> redisServerClusterBeans=new ArrayList<FfanRedisServerClusterBean>();
+		List<LBRedisServerClusterBean> redisServerClusterBeans=new ArrayList<LBRedisServerClusterBean>();
 		if(redisProxyMasters!=null&&redisProxyMasters.size()>0){
 			for(RedisProxyMaster redisProxyMaster:redisProxyMasters){
-				FfanRedisServerClusterBean ffanRedisServerClusterBean=new FfanRedisServerClusterBean();
-				FfanRedisServerBean ffanRedisServerBean=new FfanRedisServerBean();
+				LBRedisServerClusterBean ffanRedisServerClusterBean=new LBRedisServerClusterBean();
+				LBRedisServerBean ffanRedisServerBean=new LBRedisServerBean();
 				ffanRedisServerBean.setHost(redisProxyMaster.getHost());
 				ffanRedisServerBean.setMaxActiveConnection(redisProxyMaster.getMaxActiveConnection());
 				ffanRedisServerBean.setMaxIdleConnection(redisProxyMaster.getMaxIdleConnection());
@@ -83,10 +83,10 @@ public class RedisProxyNode implements InitializingBean {
 				ffanRedisServerClusterBean.setLoadClusterBalance(redisProxyMaster.getLoadClusterBalance());
 				ffanRedisServerClusterBean.setFfanMasterRedisServerBean(ffanRedisServerBean);
 				
-				List<FfanRedisServerBean> ffanRedisServerBeans=new ArrayList<FfanRedisServerBean>();
+				List<LBRedisServerBean> ffanRedisServerBeans=new ArrayList<LBRedisServerBean>();
 				
 				for(RedisProxyCluster proxyCluster:redisProxyMaster.getRedisProxyClusters()){
-					FfanRedisServerBean redisServerBean=new FfanRedisServerBean();
+					LBRedisServerBean redisServerBean=new LBRedisServerBean();
 					redisServerBean.setHost(proxyCluster.getHost());
 					redisServerBean.setMaxActiveConnection(proxyCluster.getMaxActiveConnection());
 					redisServerBean.setMaxIdleConnection(proxyCluster.getMaxIdleConnection());
@@ -100,7 +100,7 @@ public class RedisProxyNode implements InitializingBean {
 				redisServerClusterBeans.add(ffanRedisServerClusterBean);
 			}
 		}
-		FfanRedisServerMasterCluster ffanRedisServerMasterCluster=new FfanRedisServerMasterCluster(redisServerClusterBeans);
+		LBRedisServerMasterCluster ffanRedisServerMasterCluster=new LBRedisServerMasterCluster(redisServerClusterBeans);
 		ffanRedisServerMasterCluster.setRedisProxyHost(redisProxyHost);
 		ffanRedisServerMasterCluster.setRedisProxyPort(redisProxyPort);
 		ffanRedisServerMasterCluster.setLoadMasterBalance(getLoadMasterBalance());
@@ -113,7 +113,7 @@ public class RedisProxyNode implements InitializingBean {
 	 */
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		FfanRedisServerMasterCluster ffanRedisServerMasterCluster=getFfanRedisServerMasterCluster();
+		LBRedisServerMasterCluster ffanRedisServerMasterCluster=getFfanRedisServerMasterCluster();
 		initRegistry(ffanRedisServerMasterCluster);
 		startRedisProxyServer(ffanRedisServerMasterCluster);
 	
@@ -123,7 +123,7 @@ public class RedisProxyNode implements InitializingBean {
 	 * 初始化zk
 	 * @param ffanRedisServerMasterCluster
 	 */
-	private void initRegistry(FfanRedisServerMasterCluster ffanRedisServerMasterCluster){
+	private void initRegistry(LBRedisServerMasterCluster ffanRedisServerMasterCluster){
 		ZookeeperRegistryFactory zookeeperRegistryFactory=new ZookeeperRegistryFactory();
 
 		RedisProxyURL redisProxyURL=new RedisProxyURL();
@@ -131,13 +131,13 @@ public class RedisProxyNode implements InitializingBean {
 		Registry registry=zookeeperRegistryFactory.getRegistry(redisProxyURL);
 		ZookeeperRegistryListen registryListen=new ZookeeperRegistryListen(ffanRedisServerMasterCluster);
 		if(ffanRedisServerMasterCluster.getMasters()!=null&&ffanRedisServerMasterCluster.getMasters().size()>0){
-			for(FfanRedisServerBean ffanRedisServerBean:ffanRedisServerMasterCluster.getMasters()){
+			for(LBRedisServerBean ffanRedisServerBean:ffanRedisServerMasterCluster.getMasters()){
 				RedisProxyURL newRedisProxyURL=new RedisProxyURL(ffanRedisServerBean.getHost(),ffanRedisServerBean.getPort(),ffanRedisServerBean.getTimeout());
 				newRedisProxyURL.addParameter(RedisProxyParamType.REDISSERVER.getName(), JSONObject.toJSONString(ffanRedisServerBean));
 				registry.register(newRedisProxyURL, registryListen);//监听主的变化
-				List<FfanRedisServerBean> ffanRedisServerBeans=ffanRedisServerMasterCluster.getMasterFfanRedisServerBean(ffanRedisServerBean.getKey());
+				List<LBRedisServerBean> ffanRedisServerBeans=ffanRedisServerMasterCluster.getMasterFfanRedisServerBean(ffanRedisServerBean.getKey());
 				if(ffanRedisServerBeans!=null){
-					for(FfanRedisServerBean ffanClusterRedisServerBean:ffanRedisServerBeans){//从
+					for(LBRedisServerBean ffanClusterRedisServerBean:ffanRedisServerBeans){//从
 						RedisProxyURL newClusterRedisProxyURL=new RedisProxyURL(ffanClusterRedisServerBean.getHost(),ffanClusterRedisServerBean.getPort(),ffanClusterRedisServerBean.getTimeout());
 						newClusterRedisProxyURL.setParentServerPath(ffanRedisServerBean.getServerKey());
 						registry.createPersistent(newClusterRedisProxyURL, JSONObject.toJSONString(ffanClusterRedisServerBean));//写入从
@@ -152,8 +152,8 @@ public class RedisProxyNode implements InitializingBean {
 	/**
 	 * 启动server 容器
 	 */
-	private void startRedisProxyServer(FfanRedisServerMasterCluster ffanRedisServerMasterCluster){
-		FfanRedisServer ffanRedisServer=new FfanRedisServer(ffanRedisServerMasterCluster);
+	private void startRedisProxyServer(LBRedisServerMasterCluster ffanRedisServerMasterCluster){
+		LBRedisServer ffanRedisServer=new LBRedisServer(ffanRedisServerMasterCluster);
 		
 		ffanRedisServer.start();
 	}

@@ -9,7 +9,7 @@ import com.opensource.netty.redis.proxy.commons.algorithm.Hashing;
 import com.opensource.netty.redis.proxy.commons.algorithm.impl.ConsistentHash;
 import com.opensource.netty.redis.proxy.commons.algorithm.impl.MurmurHash;
 import com.opensource.netty.redis.proxy.core.cluster.impl.support.RedisQuestBean;
-import com.opensource.netty.redis.proxy.core.config.support.FfanRedisServerBean;
+import com.opensource.netty.redis.proxy.core.config.support.LBRedisServerBean;
 
 /**
  * 一致性hash
@@ -27,11 +27,11 @@ public class ConsistentHashLoadBalance extends AbstractLoadBalance {
 	 * @see com.wanda.ffan.redis.proxy.core.cluster.impl.AbstractLoadBalance#doSelect(com.wanda.ffan.redis.proxy.core.cluster.impl.support.RedisQuestBean, java.util.List)
 	 */
 	@Override
-	protected FfanRedisServerBean doSelect(RedisQuestBean redisQuestBean,
-			List<FfanRedisServerBean> ffanRedisMasterServers) {
+	protected LBRedisServerBean doSelect(RedisQuestBean redisQuestBean,
+			List<LBRedisServerBean> ffanRedisMasterServers) {
 		Hashing hashFunction = new MurmurHash(); // hash函数实例
-		ConsistentHash<FfanRedisServerBean> consistentHash=new ConsistentHash<FfanRedisServerBean>(hashFunction, ffanRedisMasterServers.size(), ffanRedisMasterServers);
-		FfanRedisServerBean ffanRedisServerBean=consistentHash.getBytes(redisQuestBean.getKey());
+		ConsistentHash<LBRedisServerBean> consistentHash=new ConsistentHash<LBRedisServerBean>(hashFunction, ffanRedisMasterServers.size(), ffanRedisMasterServers);
+		LBRedisServerBean ffanRedisServerBean=consistentHash.getBytes(redisQuestBean.getKey());
 		return ffanRedisServerBean;
 	}
 	

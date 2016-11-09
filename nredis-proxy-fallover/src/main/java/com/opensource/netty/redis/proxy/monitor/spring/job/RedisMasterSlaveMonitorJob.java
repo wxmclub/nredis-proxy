@@ -22,7 +22,7 @@ import redis.clients.jedis.JedisPool;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.opensource.netty.redis.proxy.core.config.support.FfanRedisServerBean;
+import com.opensource.netty.redis.proxy.core.config.support.LBRedisServerBean;
 import com.opensource.netty.redis.proxy.core.enums.ZkNodeType;
 import com.opensource.netty.redis.proxy.core.registry.impl.support.ZkUtils;
 import com.opensource.netty.redis.proxy.core.url.RedisProxyURL;
@@ -151,7 +151,7 @@ public class RedisMasterSlaveMonitorJob implements InitializingBean {
                             String childPath = new StringBuilder(parentPath).append("/").append(slaveHostAndPort.get().getHost()).append(":").append(slaveHostAndPort.get().getPort()).toString();
                             if (zkClient.exists(parentPath)) {
                                     String childData = zkClient.readData(childPath, true);
-                                    FfanRedisServerBean childFfanRedisServerBean = JSONObject.parseObject(childData, FfanRedisServerBean.class);
+                                    LBRedisServerBean childFfanRedisServerBean = JSONObject.parseObject(childData, LBRedisServerBean.class);
                                     //将从的data设置的主的parentPath
                                     logger.info("write child data to parent path...");
                                     zkClient.writeData(parentPath, JSON.toJSONString(childFfanRedisServerBean));

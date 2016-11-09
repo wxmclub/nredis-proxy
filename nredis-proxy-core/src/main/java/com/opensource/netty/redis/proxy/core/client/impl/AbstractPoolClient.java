@@ -12,12 +12,12 @@ import com.opensource.netty.redis.proxy.core.command.impl.RedisCommand;
 import com.opensource.netty.redis.proxy.core.connection.IConnection;
 import com.opensource.netty.redis.proxy.core.connection.IConnectionCallBack;
 import com.opensource.netty.redis.proxy.core.enums.RedisProxyParamType;
-import com.opensource.netty.redis.proxy.core.pool.utils.FfanRedisProxyChannelPoolUtils;
+import com.opensource.netty.redis.proxy.core.pool.utils.LBRedisProxyChannelPoolUtils;
 import com.opensource.netty.redis.proxy.core.url.RedisProxyURL;
-import com.opensource.netty.redis.proxy.pool.FfanRedisProxyPoolEntry;
-import com.opensource.netty.redis.proxy.pool.FfanRedisProxyPooledObjectFactory;
-import com.opensource.netty.redis.proxy.pool.commons.FfanRedisProxyPoolConfig;
-import com.opensource.netty.redis.proxy.pool.impl.FfanRedisProxyBasicPool;
+import com.opensource.netty.redis.proxy.pool.LBRedisProxyPoolEntry;
+import com.opensource.netty.redis.proxy.pool.LBRedisProxyPooledObjectFactory;
+import com.opensource.netty.redis.proxy.pool.commons.LBRedisProxyPoolConfig;
+import com.opensource.netty.redis.proxy.pool.impl.LBRedisProxyBasicPool;
 
 
 
@@ -27,9 +27,9 @@ import com.opensource.netty.redis.proxy.pool.impl.FfanRedisProxyBasicPool;
  */
 public abstract class AbstractPoolClient extends AbstractClient{
 	
-	protected FfanRedisProxyBasicPool<IConnection>  pool;
-    protected FfanRedisProxyPoolConfig ffanRedisProxyPoolConfig;
-    protected FfanRedisProxyPooledObjectFactory<IConnection> factory;
+	protected LBRedisProxyBasicPool<IConnection>  pool;
+    protected LBRedisProxyPoolConfig ffanRedisProxyPoolConfig;
+    protected LBRedisProxyPooledObjectFactory<IConnection> factory;
     protected RedisProxyURL redisProxyURL;
 	private Logger logger = LoggerFactory.getLogger(AbstractPoolClient.class);
 
@@ -43,14 +43,14 @@ public abstract class AbstractPoolClient extends AbstractClient{
     
 	protected void initPool() {
 		try{
-			ffanRedisProxyPoolConfig=new FfanRedisProxyPoolConfig();
+			ffanRedisProxyPoolConfig=new LBRedisProxyPoolConfig();
 			ffanRedisProxyPoolConfig.setMaxActiveEntries(redisProxyURL.getIntParameter(RedisProxyParamType.maxServerConnection.getName(), RedisProxyParamType.maxServerConnection.getIntValue()));
 			ffanRedisProxyPoolConfig.setMaxIdleEntries(redisProxyURL.getIntParameter(RedisProxyParamType.maxClientConnection.getName(), RedisProxyParamType.maxClientConnection.getIntValue()));
 			ffanRedisProxyPoolConfig.setInitialEntries(redisProxyURL.getIntParameter(RedisProxyParamType.minClientConnection.getName(), RedisProxyParamType.minClientConnection.getIntValue()));
 			ffanRedisProxyPoolConfig.setMinIdleEntries(redisProxyURL.getIntParameter(RedisProxyParamType.minClientConnection.getName(), RedisProxyParamType.minClientConnection.getIntValue()));
 			
             factory = createChannelFactory();
-            pool = FfanRedisProxyChannelPoolUtils.createPool(ffanRedisProxyPoolConfig, factory);
+            pool = LBRedisProxyChannelPoolUtils.createPool(ffanRedisProxyPoolConfig, factory);
 		}catch(Exception e){
 			logger.error("initPool fail,reason:"+e.getCause()+",message:"+e.getMessage(), e);
 		}
@@ -60,12 +60,12 @@ public abstract class AbstractPoolClient extends AbstractClient{
 	 * 创建一个工厂类
 	 * @return
 	 */
-    protected abstract FfanRedisProxyPooledObjectFactory<IConnection> createChannelFactory();
+    protected abstract LBRedisProxyPooledObjectFactory<IConnection> createChannelFactory();
     
     public abstract void write(RedisCommand request,IConnectionCallBack connectionCallBack);
     
-    protected FfanRedisProxyPoolEntry<IConnection> borrowObject() throws Exception {
-    	FfanRedisProxyPoolEntry<IConnection> nettyChannelEntry=pool.borrowEntry();
+    protected LBRedisProxyPoolEntry<IConnection> borrowObject() throws Exception {
+    	LBRedisProxyPoolEntry<IConnection> nettyChannelEntry=pool.borrowEntry();
         if (nettyChannelEntry != null&&nettyChannelEntry.getObject()!=null) {
             return nettyChannelEntry;
         }
@@ -76,7 +76,7 @@ public abstract class AbstractPoolClient extends AbstractClient{
     }
 
 
-    protected void returnObject(FfanRedisProxyPoolEntry<IConnection> entry) {
+    protected void returnObject(LBRedisProxyPoolEntry<IConnection> entry) {
         if (entry == null) {
             return;
         }

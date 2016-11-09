@@ -11,7 +11,7 @@ import org.I0Itec.zkclient.IZkChildListener;
 import org.I0Itec.zkclient.IZkDataListener;
 import org.I0Itec.zkclient.ZkClient;
 
-import com.opensource.netty.redis.proxy.commons.exception.FfanRedisProxyFrameworkException;
+import com.opensource.netty.redis.proxy.commons.exception.LBRedisProxyFrameworkException;
 import com.opensource.netty.redis.proxy.core.enums.RedisProxyParamType;
 import com.opensource.netty.redis.proxy.core.enums.ZkNodeType;
 import com.opensource.netty.redis.proxy.core.listen.IRegistryListen;
@@ -76,7 +76,7 @@ public class ZookeeperRegistry extends AbstractRegistry {
 				});
 			 }
 		}catch(Exception e){
-            throw new FfanRedisProxyFrameworkException(String.format("Failed to register %s to zookeeper(%s), cause: %s", url, getRedisProxyURL(), e.getMessage()), e);
+            throw new LBRedisProxyFrameworkException(String.format("Failed to register %s to zookeeper(%s), cause: %s", url, getRedisProxyURL(), e.getMessage()), e);
 		}finally{
 			 serverLock.unlock();
 		}
@@ -92,7 +92,7 @@ public class ZookeeperRegistry extends AbstractRegistry {
 	            
 	            removeNode(url, ZkNodeType.AVAILABLE_SERVER);
 	        } catch (Throwable e) {
-	            throw new FfanRedisProxyFrameworkException(String.format("Failed to unregister %s to zookeeper(%s), cause: %s", url, getRedisProxyURL(), e.getMessage()), e);
+	            throw new LBRedisProxyFrameworkException(String.format("Failed to unregister %s to zookeeper(%s), cause: %s", url, getRedisProxyURL(), e.getMessage()), e);
 	        } finally {
 	        	clientLock.unlock();
 	        }

@@ -9,8 +9,8 @@ import java.util.List;
 import com.alibaba.fastjson.JSONObject;
 import com.opensource.netty.redis.proxy.commons.constants.RedisConstants;
 import com.opensource.netty.redis.proxy.commons.utils.StringUtils;
-import com.opensource.netty.redis.proxy.core.config.FfanRedisServerMasterCluster;
-import com.opensource.netty.redis.proxy.core.config.support.FfanRedisServerBean;
+import com.opensource.netty.redis.proxy.core.config.LBRedisServerMasterCluster;
+import com.opensource.netty.redis.proxy.core.config.support.LBRedisServerBean;
 import com.opensource.netty.redis.proxy.core.listen.impl.AbstractRegistryListenImpl;
 import com.opensource.netty.redis.proxy.core.log.impl.LoggerUtils;
 
@@ -21,7 +21,7 @@ import com.opensource.netty.redis.proxy.core.log.impl.LoggerUtils;
 public class ZookeeperRegistryListen extends AbstractRegistryListenImpl {
 	
 	
-	public ZookeeperRegistryListen(FfanRedisServerMasterCluster ffanRedisServerMasterCluster) {
+	public ZookeeperRegistryListen(LBRedisServerMasterCluster ffanRedisServerMasterCluster) {
 		super(ffanRedisServerMasterCluster);
 	}
 
@@ -36,7 +36,7 @@ public class ZookeeperRegistryListen extends AbstractRegistryListenImpl {
 		dataPath=dataPath.replace(RedisConstants.PROTOCOL_SEPARATOR, RedisConstants.SEPERATOR_ACCESS_LOG);
 		StringBuffer sbBuffer=new StringBuffer();
 		sbBuffer.append(RedisConstants.REDIS_PROXY).append(dataPath);
-		FfanRedisServerBean ffanRedisServerBean=JSONObject.parseObject(String.valueOf(data), FfanRedisServerBean.class);
+		LBRedisServerBean ffanRedisServerBean=JSONObject.parseObject(String.valueOf(data), LBRedisServerBean.class);
 		super.getFfanRedisServerMasterCluster().updateFfanRedisMasterBean(sbBuffer.toString(), ffanRedisServerBean);
 		
 	}
@@ -54,10 +54,10 @@ public class ZookeeperRegistryListen extends AbstractRegistryListenImpl {
 			dataPath=dataPath.replace(RedisConstants.PROTOCOL_SEPARATOR, RedisConstants.SEPERATOR_ACCESS_LOG);
 			StringBuffer sbBuffer=new StringBuffer();
 			sbBuffer.append(RedisConstants.REDIS_PROXY).append(dataPath);
-			List<FfanRedisServerBean> ffanRedisClusterBeans=new ArrayList<FfanRedisServerBean>();
+			List<LBRedisServerBean> ffanRedisClusterBeans=new ArrayList<LBRedisServerBean>();
 			if(ChildDatas!=null&&ChildDatas.size()>0){//有从，从的值发生改变
 				for(String childData:ChildDatas){
-					FfanRedisServerBean ffanRedisServerBean=JSONObject.parseObject(childData, FfanRedisServerBean.class);
+					LBRedisServerBean ffanRedisServerBean=JSONObject.parseObject(childData, LBRedisServerBean.class);
 					ffanRedisClusterBeans.add(ffanRedisServerBean);
 				}
 				super.getFfanRedisServerMasterCluster().updateFfanRedisClusterBeans(sbBuffer.toString(), ffanRedisClusterBeans);

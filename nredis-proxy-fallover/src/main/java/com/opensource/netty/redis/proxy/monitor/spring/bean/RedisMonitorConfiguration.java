@@ -15,7 +15,7 @@ import redis.clients.jedis.JedisPoolConfig;
 
 import com.alibaba.fastjson.JSONObject;
 import com.opensource.netty.redis.proxy.commons.constants.RedisConstants;
-import com.opensource.netty.redis.proxy.core.config.support.FfanRedisServerBean;
+import com.opensource.netty.redis.proxy.core.config.support.LBRedisServerBean;
 import com.opensource.netty.redis.proxy.core.registry.Registry;
 import com.opensource.netty.redis.proxy.core.url.RedisProxyURL;
 import com.opensource.netty.redis.proxy.zk.registry.ZookeeperRegistryFactory;
@@ -33,9 +33,9 @@ public class RedisMonitorConfiguration implements InitializingBean{
 	//主从 线程池
 	private Map<String, ArrayList<JedisPool>> clusterShardInfos=new ConcurrentHashMap<String, ArrayList<JedisPool>>();
 		
-	private List<FfanRedisServerBean> ffanRedisMasterServerBeans=new ArrayList<FfanRedisServerBean>();//主 注册
+	private List<LBRedisServerBean> ffanRedisMasterServerBeans=new ArrayList<LBRedisServerBean>();//主 注册
 	
-	private Map<String, ArrayList<FfanRedisServerBean>> ffanRedisServerClusterBeans=new ConcurrentHashMap<String, ArrayList<FfanRedisServerBean>>();
+	private Map<String, ArrayList<LBRedisServerBean>> ffanRedisServerClusterBeans=new ConcurrentHashMap<String, ArrayList<LBRedisServerBean>>();
 	
 	private JedisPoolConfig config = new JedisPoolConfig();
 	/**
@@ -73,7 +73,7 @@ public class RedisMonitorConfiguration implements InitializingBean{
 		if(redisMasterNodes!=null&&redisMasterNodes.size()>0){
 			for(String redisMasterNode:redisMasterNodes){//主
 				String masterBean=registry.readData(RedisConstants.TOP_PATH+RedisConstants.PATH_SEPARATOR+redisMasterNode, true);
-				FfanRedisServerBean ffanRedisServerBean=JSONObject.parseObject(masterBean, FfanRedisServerBean.class);
+				LBRedisServerBean ffanRedisServerBean=JSONObject.parseObject(masterBean, LBRedisServerBean.class);
 				ffanRedisMasterServerBeans.add(ffanRedisServerBean);
 				
 				String dataPath=redisMasterNode;
@@ -85,13 +85,13 @@ public class RedisMonitorConfiguration implements InitializingBean{
 				for(String redisClusterNode:redisClutserNodes){//从
 					String clusterBean=registry.readData(RedisConstants.TOP_PATH+RedisConstants.PATH_SEPARATOR+redisMasterNode+RedisConstants.PATH_SEPARATOR+redisClusterNode, true);
 					if(ffanRedisServerClusterBeans.containsKey(key.toString())){
-						ArrayList<FfanRedisServerBean> ffanRedisClusterServerBeans=ffanRedisServerClusterBeans.get(key.toString());
-						FfanRedisServerBean ffanRedisClusterServerBean=JSONObject.parseObject(clusterBean, FfanRedisServerBean.class);
+						ArrayList<LBRedisServerBean> ffanRedisClusterServerBeans=ffanRedisServerClusterBeans.get(key.toString());
+						LBRedisServerBean ffanRedisClusterServerBean=JSONObject.parseObject(clusterBean, LBRedisServerBean.class);
 						ffanRedisClusterServerBeans.add(ffanRedisClusterServerBean);
 						ffanRedisServerClusterBeans.put(key.toString(), ffanRedisClusterServerBeans);
 					}else{
-						ArrayList<FfanRedisServerBean> ffanRedisClusterServerBeans=new ArrayList<FfanRedisServerBean>();					
-						FfanRedisServerBean ffanRedisClusterServerBean=JSONObject.parseObject(clusterBean, FfanRedisServerBean.class);
+						ArrayList<LBRedisServerBean> ffanRedisClusterServerBeans=new ArrayList<LBRedisServerBean>();					
+						LBRedisServerBean ffanRedisClusterServerBean=JSONObject.parseObject(clusterBean, LBRedisServerBean.class);
 						ffanRedisClusterServerBeans.add(ffanRedisClusterServerBean);
 						ffanRedisServerClusterBeans.put(key.toString(), ffanRedisClusterServerBeans);
 					}
@@ -181,7 +181,7 @@ public class RedisMonitorConfiguration implements InitializingBean{
 	/**
 	 * @return the ffanRedisMasterServerBeans
 	 */
-	public List<FfanRedisServerBean> getFfanRedisMasterServerBeans() {
+	public List<LBRedisServerBean> getFfanRedisMasterServerBeans() {
 		return ffanRedisMasterServerBeans;
 	}
 
@@ -191,7 +191,7 @@ public class RedisMonitorConfiguration implements InitializingBean{
 	 * @param ffanRedisMasterServerBeans the ffanRedisMasterServerBeans to set
 	 */
 	public void setFfanRedisMasterServerBeans(
-			List<FfanRedisServerBean> ffanRedisMasterServerBeans) {
+			List<LBRedisServerBean> ffanRedisMasterServerBeans) {
 		this.ffanRedisMasterServerBeans = ffanRedisMasterServerBeans;
 	}
 
@@ -200,7 +200,7 @@ public class RedisMonitorConfiguration implements InitializingBean{
 	/**
 	 * @return the ffanRedisServerClusterBeans
 	 */
-	public Map<String, ArrayList<FfanRedisServerBean>> getFfanRedisServerClusterBeans() {
+	public Map<String, ArrayList<LBRedisServerBean>> getFfanRedisServerClusterBeans() {
 		return ffanRedisServerClusterBeans;
 	}
 
@@ -210,7 +210,7 @@ public class RedisMonitorConfiguration implements InitializingBean{
 	 * @param ffanRedisServerClusterBeans the ffanRedisServerClusterBeans to set
 	 */
 	public void setFfanRedisServerClusterBeans(
-			Map<String, ArrayList<FfanRedisServerBean>> ffanRedisServerClusterBeans) {
+			Map<String, ArrayList<LBRedisServerBean>> ffanRedisServerClusterBeans) {
 		this.ffanRedisServerClusterBeans = ffanRedisServerClusterBeans;
 	}
 

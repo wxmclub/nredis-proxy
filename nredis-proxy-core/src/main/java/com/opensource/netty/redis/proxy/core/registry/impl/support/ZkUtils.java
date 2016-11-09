@@ -4,7 +4,7 @@
 package com.opensource.netty.redis.proxy.core.registry.impl.support;
 
 import com.opensource.netty.redis.proxy.commons.constants.RedisConstants;
-import com.opensource.netty.redis.proxy.commons.exception.FfanRedisProxyFrameworkException;
+import com.opensource.netty.redis.proxy.commons.exception.LBRedisProxyFrameworkException;
 import com.opensource.netty.redis.proxy.commons.utils.StringUtils;
 import com.opensource.netty.redis.proxy.core.enums.ZkNodeType;
 import com.opensource.netty.redis.proxy.core.url.RedisProxyURL;
@@ -36,7 +36,7 @@ public class ZkUtils {
         } else if (nodeType == ZkNodeType.CLIENT) {
             type = "client";
         } else {
-            throw new FfanRedisProxyFrameworkException(String.format("Failed to get nodeTypePath, url: %s type: %s", url, nodeType.toString()));
+            throw new LBRedisProxyFrameworkException(String.format("Failed to get nodeTypePath, url: %s type: %s", url, nodeType.toString()));
         }
         return toCommandPath(url) + RedisConstants.PATH_SEPARATOR + type;
     }

@@ -4,7 +4,7 @@
 package com.opensource.netty.redis.proxy.core.listen.impl;
 
 
-import com.opensource.netty.redis.proxy.core.config.FfanRedisServerMasterCluster;
+import com.opensource.netty.redis.proxy.core.config.LBRedisServerMasterCluster;
 import com.opensource.netty.redis.proxy.core.listen.IRegistryListen;
 
 /**
@@ -13,14 +13,14 @@ import com.opensource.netty.redis.proxy.core.listen.IRegistryListen;
  */
 public abstract class AbstractRegistryListenImpl implements IRegistryListen {
 	
-	private FfanRedisServerMasterCluster ffanRedisServerMasterCluster;
+	private LBRedisServerMasterCluster ffanRedisServerMasterCluster;
 	
 	
 	/**
 	 * @param ffanRedisServerMasterCluster
 	 */
 	public AbstractRegistryListenImpl(
-			FfanRedisServerMasterCluster ffanRedisServerMasterCluster) {
+			LBRedisServerMasterCluster ffanRedisServerMasterCluster) {
 		super();
 		this.ffanRedisServerMasterCluster = ffanRedisServerMasterCluster;
 	}
@@ -29,7 +29,7 @@ public abstract class AbstractRegistryListenImpl implements IRegistryListen {
 	/**
 	 * @return the ffanRedisServerMasterCluster
 	 */
-	public FfanRedisServerMasterCluster getFfanRedisServerMasterCluster() {
+	public LBRedisServerMasterCluster getFfanRedisServerMasterCluster() {
 		return ffanRedisServerMasterCluster;
 	}
 
@@ -38,7 +38,7 @@ public abstract class AbstractRegistryListenImpl implements IRegistryListen {
 	 * @param ffanRedisServerMasterCluster the ffanRedisServerMasterCluster to set
 	 */
 	public void setFfanRedisServerMasterCluster(
-			FfanRedisServerMasterCluster ffanRedisServerMasterCluster) {
+			LBRedisServerMasterCluster ffanRedisServerMasterCluster) {
 		this.ffanRedisServerMasterCluster = ffanRedisServerMasterCluster;
 	}
 

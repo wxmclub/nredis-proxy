@@ -6,8 +6,8 @@ package com.opensource.netty.redis.proxy.core.registry.impl;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantLock;
 
-import com.opensource.netty.redis.proxy.commons.constants.FfanRedisProxyErrorMsgConstant;
-import com.opensource.netty.redis.proxy.commons.exception.FfanRedisProxyFrameworkException;
+import com.opensource.netty.redis.proxy.commons.constants.LBRedisProxyErrorMsgConstant;
+import com.opensource.netty.redis.proxy.commons.exception.LBRedisProxyFrameworkException;
 import com.opensource.netty.redis.proxy.core.registry.Registry;
 import com.opensource.netty.redis.proxy.core.registry.RegistryFactory;
 import com.opensource.netty.redis.proxy.core.url.RedisProxyURL;
@@ -41,12 +41,12 @@ public abstract class AbstractRegistryFactory implements RegistryFactory {
             }
             registry = createRegistry(redisProxyURL);
             if (registry == null) {
-                throw new FfanRedisProxyFrameworkException("Create registry false for url:" + registryUri, FfanRedisProxyErrorMsgConstant.FRAMEWORK_INIT_ERROR);
+                throw new LBRedisProxyFrameworkException("Create registry false for url:" + registryUri, LBRedisProxyErrorMsgConstant.FRAMEWORK_INIT_ERROR);
             }
             registries.put(registryUri, registry);
             return registry;
         } catch (Exception e) {
-            throw new FfanRedisProxyFrameworkException("Create registry false for url:" + registryUri, e, FfanRedisProxyErrorMsgConstant.FRAMEWORK_INIT_ERROR);
+            throw new LBRedisProxyFrameworkException("Create registry false for url:" + registryUri, e, LBRedisProxyErrorMsgConstant.FRAMEWORK_INIT_ERROR);
         } finally {
             lock.unlock();
         }

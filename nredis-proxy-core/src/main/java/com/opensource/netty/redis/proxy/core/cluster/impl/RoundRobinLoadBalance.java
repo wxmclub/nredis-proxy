@@ -7,7 +7,7 @@ import java.util.List;
 
 import com.opensource.netty.redis.proxy.commons.algorithm.impl.RoundRobinHash;
 import com.opensource.netty.redis.proxy.core.cluster.impl.support.RedisQuestBean;
-import com.opensource.netty.redis.proxy.core.config.support.FfanRedisServerBean;
+import com.opensource.netty.redis.proxy.core.config.support.LBRedisServerBean;
 
 /**
  * RoundRobin 权重算法
@@ -24,10 +24,10 @@ public class RoundRobinLoadBalance extends AbstractLoadBalance {
 	 * @see com.wanda.ffan.redis.proxy.core.cluster.impl.AbstractLoadBalance#doSelect(com.wanda.ffan.redis.proxy.core.cluster.impl.support.RedisQuestBean, java.util.List)
 	 */
 	@Override
-	protected FfanRedisServerBean doSelect(RedisQuestBean redisQuestBean,
-			List<FfanRedisServerBean> ffanRedisMasterServers) {
-		RoundRobinHash<FfanRedisServerBean> roundRobinHash=new RoundRobinHash<FfanRedisServerBean>(ffanRedisMasterServers);
-		FfanRedisServerBean result=roundRobinHash.weightRandom();
+	protected LBRedisServerBean doSelect(RedisQuestBean redisQuestBean,
+			List<LBRedisServerBean> ffanRedisMasterServers) {
+		RoundRobinHash<LBRedisServerBean> roundRobinHash=new RoundRobinHash<LBRedisServerBean>(ffanRedisMasterServers);
+		LBRedisServerBean result=roundRobinHash.weightRandom();
 		return result;
 	}
 
