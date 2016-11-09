@@ -10,6 +10,8 @@ nredis-proxy 是一个以redis 协议为主的高性能稳定的代理中间件�
      
      4：提供自动监听功能，主挂了，提供选举算法，从作为主
 
+     5：可HA分布式部署，节点随意扩展
+
 二：nredis-proxy 架构图
  
    ![输入图片说明](http://git.oschina.net/uploads/images/2016/1110/000750_ed0b1d9f_54128.png "在这里输入图片标题")
