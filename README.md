@@ -15,7 +15,7 @@ nredis-proxy 是一个以redis 协议为主的高性能稳定的代理中间件�
 
 三：nredis-proxy 部署架构图
 
-
+![输入图片说明](http://git.oschina.net/uploads/images/2016/1110/000104_44f5a5cb_54128.png "在这里输入图片标题")
      
  四：例子配置文件：
 
