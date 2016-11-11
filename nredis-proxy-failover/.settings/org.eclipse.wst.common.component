@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="nredis-proxy-fallover">
+        <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
+        <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
+        <dependent-module archiveName="nredis-proxy-register-1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/nredis-proxy-register/nredis-proxy-register">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="nredis-proxy-core-1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/nredis-proxy-core/nredis-proxy-core">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="nredis-proxy-commons-1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/nredis-proxy-commons/nredis-proxy-commons">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="nredis-proxy-pool-1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/nredis-proxy-pool/nredis-proxy-pool">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <property name="java-output-path" value="/nredis-proxy-fallover/target/classes"/>
+        <property name="context-root" value="nredis-proxy-failover"/>
+    </wb-module>
+</project-modules>

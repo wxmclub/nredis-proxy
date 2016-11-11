@@ -135,7 +135,7 @@
     <module>nredis-proxy-pool</module>
     <module>nredis-proxy-register</module>
     <module>nredis-proxy-spring</module>
-    <module>nredis-proxy-fallover</module>
+    <module>nredis-proxy-failover</module>
     <module>nredis-proxy-sample</module>
   </modules>
 </project>
