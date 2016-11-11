@@ -16,7 +16,7 @@
         <dependent-module archiveName="nredis-proxy-pool-1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/nredis-proxy-pool/nredis-proxy-pool">
             <dependency-type>uses</dependency-type>
         </dependent-module>
-        <property name="context-root" value="nredis-proxy-fallover"/>
         <property name="java-output-path" value="/nredis-proxy-fallover/target/classes"/>
+        <property name="context-root" value="nredis-proxy-failover"/>
     </wb-module>
 </project-modules>
