@@ -43,5 +43,6 @@ nredis-proxy 是一个以redis 协议为主的高性能稳定的代理中间件�
 
  	<bean name="loadClusterBalance" class="com.opensource.netty.redis.proxy.core.cluster.impl.RoundRobinLoadBalance"></bean>
  	
- </beans>
+
+</beans>
      
