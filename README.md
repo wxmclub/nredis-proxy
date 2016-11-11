@@ -20,4 +20,4 @@ nredis-proxy 是一个以redis 协议为主的高性能稳定的代理中间件�
 
 ![输入图片说明](http://git.oschina.net/uploads/images/2016/1110/000104_44f5a5cb_54128.png "在这里输入图片标题")
      
- 详细文档地址 ：[输入链接说明](https://my.oschina.net/liubingsmile/blog/786465)
+ 详细文档地址 ：[https://my.oschina.net/liubingsmile/blog/786465](https://my.oschina.net/liubingsmile/blog/786465)
