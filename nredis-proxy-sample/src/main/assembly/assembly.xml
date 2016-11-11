@@ -1,0 +1,26 @@
+<assembly>
+	<id>package</id>
+	<formats>
+		<format>dir</format>
+	</formats>
+	<includeBaseDirectory>false</includeBaseDirectory>
+	<dependencySets>
+		<dependencySet>
+			<useProjectArtifact>true</useProjectArtifact>
+			<outputDirectory>lib</outputDirectory>
+		</dependencySet>
+	</dependencySets>
+	<fileSets>
+		<fileSet>
+			<filtered>true</filtered>
+			<directory>src/main/resources</directory>
+			<outputDirectory>/config</outputDirectory>
+		</fileSet>
+	</fileSets>
+	<files>
+		<file>
+			<source>src/main/deploy/single.sh</source>
+			<outputDirectory>/bin</outputDirectory>
+		</file>
+	</files>
+</assembly>
