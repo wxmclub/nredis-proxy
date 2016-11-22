@@ -101,8 +101,8 @@ public class LBRedisServer {
 		ServerBootstrap bootstrap = new ServerBootstrap();
 		bootstrap.group(bossGroup, workerGroup)
 				.channel(NioServerSocketChannel.class)
-				.option(ChannelOption.TCP_NODELAY, Boolean.TRUE)
-				.option(ChannelOption.SO_KEEPALIVE, Boolean.TRUE)
+				.childOption(ChannelOption.TCP_NODELAY, Boolean.TRUE)
+				.childOption(ChannelOption.SO_KEEPALIVE, Boolean.TRUE)
 				.childHandler(new ChannelInitializer<SocketChannel>() {
 					@Override
 					protected void initChannel(SocketChannel ch)
