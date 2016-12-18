@@ -44,7 +44,7 @@ public class LBRedisConnection implements IConnection{
 
 	public void write(RedisCommand request,IConnectionCallBack connectionCallBack) {
 	   
-		this.channel.attr(LBRedisClientOutHandler.CALLBACK_KEY).set(connectionCallBack);
+		this.channel.attr(LBRedisClientOutHandler.CALLBACK_KEY).setIfAbsent(connectionCallBack);
 		//LoggerUtils.error(channel.remoteAddress().toString()+" had been seted");
 		this.channel.writeAndFlush(request);
 		
